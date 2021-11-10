@@ -587,7 +587,6 @@ static constexpr const cmdRec cmdCtrl[] = {
     {"check", (void (*)(char *))checkBoards},
 };
 
-/***** Show or set read timout *****/
 void bus_c(char *params)
 {
   uint16_t val;
@@ -608,7 +607,6 @@ void bus_c(char *params)
   }
 }
 
-/***** Show or set read timout *****/
 void addr_c(char *params)
 {
   uint16_t val;
@@ -629,7 +627,6 @@ void addr_c(char *params)
   }
 }
 
-/***** Show or set read timout *****/
 void data_c(char *params)
 {
   uint16_t val;
@@ -650,7 +647,6 @@ void data_c(char *params)
   }
 }
 
-/***** Show or set read timout *****/
 void cmd_c(char *params)
 {
   uint16_t val;
@@ -671,7 +667,6 @@ void cmd_c(char *params)
   }
 }
 
-/***** Send a trigger command *****/
 void run_c(char *params)
 {
   char *param;
@@ -707,12 +702,12 @@ void run_c(char *params)
       case 2:
         if (notInRange(param, 0x00, 0xFF, val))
           return;
-        command.data = val;
+        command.command = val;
         break;
       case 3:
         if (notInRange(param, 0x00, 0xFF, val))
           return;
-        command.command = val;
+        command.data = val;
         break;
       }
       cnt++;
@@ -720,9 +715,9 @@ void run_c(char *params)
   }
 
   runCommand(command);
+  Serial.println();
 }
 
-/***** Send a trigger command *****/
 void set_c(char *params)
 {
   if (boardCount < 1)
@@ -760,7 +755,6 @@ void set_c(char *params)
   }
 }
 
-/***** Send a trigger command *****/
 void get_c(char *params)
 {
   if (boardCount < 1)
@@ -873,7 +867,7 @@ void getCmd(char *buffr)
   }
 }
 
-/***** Extract command and pass to handler *****/
+/***** Extract control and pass to handler *****/
 void getCtrl(char *buffr)
 {
   char *token;  // Pointer to command token
