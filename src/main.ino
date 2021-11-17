@@ -4,11 +4,20 @@
 #include "SerialState.hpp"
 
 //For unique identification
-constexpr const uint32_t serialNumber = 0;
-#define HWID (F("RLYXX"))
-#define FWVER (F("RLYXX Relay controller, ver. 1.1.1, 09/11/2021"))
+#define HW_NAME "RLYXX Relay controller, ver. 1.1.1, 09/11/2021"
+#define HW_MAN "https://github.com/Technus/RLYXX"
+#define HW_ID "RLYXX"
+#define HW_SER "0"
 
-//#define USE_SERIAL_STATE
+const u8 STRING_PRODUCT[] PROGMEM = HW_NAME;
+const u8 STRING_MAN[] PROGMEM = HW_MAN;
+const u8 STRING_SER[] PROGMEM = HW_SER;
+
+#define HWSER (F(HW_SER))
+#define HWID (F(HW_ID))
+#define FWVER (F(HW_NAME))
+
+#define USE_SERIAL_STATE
 
 #define CMD_REGISTER (0)
 #define RLY_REGISTER (1)
@@ -345,6 +354,13 @@ inline void showPrompt()
 
 void setup()
 {
+  STRING_PRODUCT_PTR=STRING_PRODUCT;
+  STRING_PRODUCT_LEN=strlen(HW_NAME);
+  STRING_MANUFACTURER_PTR=STRING_MAN;
+  STRING_MANUFACTURER_LEN=strlen(HW_MAN);
+  STRING_SERIAL_PTR=STRING_SER;
+  STRING_SERIAL_LEN=strlen(HW_SER);
+
   pinMode(LED_BUILTIN, OUTPUT);
 
   Wire.begin();
@@ -385,7 +401,7 @@ void loop()
     {
       Serial.print(HWID);
       Serial.print("-");
-      Serial.println(serialNumber);
+      Serial.println(HWSER);
     }
     sendIdn = false;
   }
@@ -530,7 +546,7 @@ void ver_h(char *params)
 {
     Serial.print(FWVER);
     Serial.print(", ");
-    Serial.println(serialNumber);
+    Serial.println(HWSER);
 }
 
 /***** Enable verbose mode 0=OFF; 1=ON *****/
